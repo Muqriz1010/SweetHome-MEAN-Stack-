@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import {AuthInterceptor} from './auth/auth-interceptor';
+import {ApplicationListComponent} from './applications/application-list/application-list.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {AuthInterceptor} from './auth/auth-interceptor';
     PostListComponent,
     LoginComponent,
     SignupComponent,
+    ApplicationListComponent
 
   ],
   imports: [

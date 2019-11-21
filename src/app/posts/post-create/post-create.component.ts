@@ -4,7 +4,6 @@ import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../post.model';
 
-
 @Component({
   selector:'app-post-create',
   templateUrl:'./post-create.component.html',

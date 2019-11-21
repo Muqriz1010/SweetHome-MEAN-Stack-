@@ -39,6 +39,7 @@ export class AuthService {
         const token = response.token;
         this.token = token;
         if (token) {
+          localStorage.setItem('currentUser', JSON.stringify({ email:email , token: token }));
           this.isAuthenticated = true;
           this.authStatusListener.next(true);
           this.router.navigate(['/']);
@@ -46,6 +47,10 @@ export class AuthService {
 
       });
   }
+
+  getUsername() {
+    return JSON.parse(localStorage.getItem('currentUser')).email;
+}
 
   logout() {
     this.token = null;

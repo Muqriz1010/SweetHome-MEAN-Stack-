@@ -9,6 +9,7 @@ const User = require("./models/user");
 const jwt = require('jsonwebtoken');
 const checkAuth = require("./middleware/check-auth");
 
+
 const MIME_TYPE_MAP ={
   'image/png': 'png',
   'image/jpeg': 'jpg',
@@ -48,13 +49,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post(
- '/api/posts',
- checkAuth,
- multer({storage: storage}).single("image"),
+
+app.post('/api/posts',checkAuth, multer({storage: storage}).single("image"),
  (req, res, next) => {
   const url = req.protocol + '://' + req.get("host");
+  User.findById(req.user.userId)
+    .then(user => {
+      if (!user) throw new Error('User not Found');
   const post = new Post({
+    user: user,
     title: req.body.title,
     content: req.body.content,
     imagePath: url + "/images/" + req.file.filename
@@ -66,9 +69,11 @@ app.post(
     post: {
       ...createdPost,
       id: createdPost._id,
+
     }
   });
   });
+});
 });
 
 app.put(
@@ -89,13 +94,17 @@ app.put(
   });
 });
 
-app.get('/api/posts',(req, res,next)=>{
-  Post.find().then(documents => {
+app.get('/api/posts', checkAuth, (req, res,next)=>{
+  User.findById(req.user.userId)
+    .then(user => {
+      if (!user) throw new Error('User not Found');
+  Post.find({user: user}).then(documents => {
     res.status(200).json({
       message: 'Post fetched successfully',
       posts: documents
     });
   })
+})
 });
 
 app.get('/api/posts/:id', (req,res,next)=>{

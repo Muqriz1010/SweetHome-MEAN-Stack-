@@ -4,9 +4,11 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import { ApplicationListComponent } from './applications/application-list/application-list.component';
+import { ApplicationListComponent } from './posts/application-list/application-list.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
+  {path: 'home', component: HomeComponent},
   {path: '', component: PostListComponent},
   {path: 'create', component: PostCreateComponent},
   {path: 'edit/:postId', component: PostCreateComponent},

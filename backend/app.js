@@ -8,7 +8,7 @@ const bcrypt = require ("bcrypt");
 const User = require("./models/user");
 const jwt = require('jsonwebtoken');
 const checkAuth = require("./middleware/check-auth");
-
+const Application = require("./models/application");
 
 const MIME_TYPE_MAP ={
   'image/png': 'png',
@@ -107,7 +107,62 @@ app.get('/api/posts', checkAuth, (req, res,next)=>{
 })
 });
 
+app.get('/api/findhouses', checkAuth, (req, res,next)=>{
+  User.findById(req.user.userId)
+    .then(user => {
+      if (!user) throw new Error('User not Found');
+  Post.find({user: { $ne: user}}).then(documents => {
+    res.status(200).json({
+      message: 'Post fetched successfully',
+      posts: documents
+    });
+  })
+})
+});
+
+app.post('/api/applyhouse', checkAuth,(req, res, next)=> {
+
+  User.findById(req.user.userId)
+    .then(user => {
+      if (!user) throw new Error('User not Found');
+  Post.findById(req.body.postId)
+    .then(post => {
+      if (!post) throw new Error('Post not Found' + req.body.postId);
+  const application = new Application({
+    applicant: user,
+    residence: post,
+    applicationdate: '12/2/1994',
+    stayfrom: req.body.from,
+    stayto: req.body.to,
+    status: 'pending',
+  });
+  application.save().then(createdApplication =>{
+    console.log(application);
+    res.status(200).json({
+    message: 'Post added successfully',
+    application: {
+      ...createdApplication,
+      id: createdApplication._id,
+
+    }
+  });
+  });
+  })
+});
+});
+
+
 app.get('/api/posts/:id', (req,res,next)=>{
+  Post.findById(req.params.id).then(post =>{
+    if (post){
+      res.status(200).json(post);
+    } else{
+      res.status(404).json({message: 'Post not found'});
+    }
+  })
+})
+
+app.get('/api/applyhouse/:id', (req,res,next)=>{
   Post.findById(req.params.id).then(post =>{
     if (post){
       res.status(200).json(post);

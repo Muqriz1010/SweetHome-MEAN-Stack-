@@ -1,4 +1,5 @@
 import {Post} from './post.model';
+import {Application} from './application.model';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
@@ -10,11 +11,34 @@ import { Router } from '@angular/router';
 export class PostsService {
  private posts: Post[] = [];
  private postsUpdated = new Subject<Post[]>();
+ private applications: Application[] = [];
+ private applicationsUpdated = new Subject<Application[]>();
 
  constructor(private http: HttpClient, private router: Router) {}
 
  getPosts() {
    this.http.get<{message: string, posts: any}>('http://localhost:3000/api/posts')
+
+      .pipe(map((postData) => {
+        return postData.posts.map(post => {
+          return {
+            title: post.title,
+            content: post.content,
+            id: post._id,
+            imagePath: post.imagePath
+          };
+        });
+
+      }))
+      .subscribe(transformedPosts => {
+        this.posts = transformedPosts;
+        this.postsUpdated.next([...this.posts]);
+
+      })
+ }
+
+ getOtherPosts() {
+   this.http.get<{message: string, posts: any}>('http://localhost:3000/api/findhouses')
 
       .pipe(map((postData) => {
         return postData.posts.map(post => {
@@ -41,6 +65,7 @@ export class PostsService {
  getPost(id: string){
    return this.http.get<{_id: string; title: string; content: string}>('http://localhost:3000/api/posts/' + id);
  }
+
 
  // to add a post
  addPost(title: string, content: string, image: File) { // method to add post with arguments
@@ -83,6 +108,37 @@ export class PostsService {
      console.log(response);
      this.router.navigate(['/']);
  });
+}
+
+applyPost(postId: string, from: string, to: string) {
+  const application: Application = {postId: postId, from: from, to: to};
+  this.http.post('http://localhost:3000/api/applyhouse', application)
+    .subscribe(response => {
+      console.log(response);
+    });
+}
+
+applyyPost(postId: string, from: string, to: string) { // method to add post with arguments
+  const applicationData = new FormData();
+  applicationData.append('postId', postId);
+  applicationData.append('from', from);
+  applicationData.append('to', to);
+
+
+  this.http
+   .post<{message: string, application: Application}> ('http://localhost:3000/api/applyhouse', applicationData)
+   .subscribe((responseData) => {
+     const application: Application = {
+       postId: postId,
+       from:from,
+       to:to
+       };
+
+       this.applications.push(application); // push the new post into posts array
+       this.applicationsUpdated.next([...this.applications]);
+       this.router.navigate(['/']);
+
+  });
 }
 
  deletePost(postId: string){

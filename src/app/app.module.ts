@@ -14,6 +14,8 @@ import { SignupComponent } from './auth/signup/signup.component';
 import {AuthInterceptor} from './auth/auth-interceptor';
 import {ApplicationListComponent} from './posts/application-list/application-list.component';
 import {HomeComponent} from './home/home.component';
+import {HouseListComponent} from './posts/house-list/house-list.component';
+import {HouseApplyComponent} from './posts/house-apply/house-apply.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import {HomeComponent} from './home/home.component';
     LoginComponent,
     SignupComponent,
     ApplicationListComponent,
-    HomeComponent
+    HomeComponent,
+    HouseListComponent,
+    HouseApplyComponent
 
   ],
   imports: [

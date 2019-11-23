@@ -1,0 +1,41 @@
+
+<mat-card class="example-card">
+  <form [formGroup]="form" (submit)="onApplyPost()">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{post.title}}</mat-card-title>
+    <mat-card-subtitle>{{post.content}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <mat-card-content>
+    <p>
+      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+      bred for hunting.
+    </p>
+  </mat-card-content>
+  <mat-form-field>
+    <input
+      matInput
+      type="date"
+      formControlName = "from"
+      placeholder = "From"
+      >
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      type="date"
+      formControlName = "to"
+      placeholder = "To"
+      >
+  </mat-form-field>
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      color = "accent"
+      type="submit">Apply
+    </button>
+  </mat-card-actions>
+  </form>
+</mat-card>

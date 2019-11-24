@@ -40,7 +40,7 @@ export class HouseListComponent implements OnInit, OnDestroy {
   }
 
   onApply(postId: string) {
-    
+
   }
 
 

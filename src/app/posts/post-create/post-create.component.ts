@@ -4,6 +4,7 @@ import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../post.model';
 
+
 @Component({
   selector:'app-post-create',
   templateUrl:'./post-create.component.html',
@@ -27,10 +28,13 @@ export class PostCreateComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      title: new FormControl(null, {
+      residencename: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)]
       }),
-      content: new FormControl(null, {validators: [Validators.required]}),
+      state: new FormControl(null, {validators: [Validators.required]}),
+      address: new FormControl(null, {validators: [Validators.required]}),
+      size: new FormControl(null, {validators: [Validators.required]}),
+      price: new FormControl(null, {validators: [Validators.required]}),
       image: new FormControl(null, {validators: [Validators.required]})
     });
 
@@ -39,8 +43,10 @@ export class PostCreateComponent implements OnInit {
         this.mode = 'edit';
         this.postId = paramMap.get('postId');
         this.postsService.getPost(this.postId).subscribe(postData => {
-          this.post = {id: postData._id, title: postData.title, content: postData.content, imagePath: null};
-          this.form.setValue({title: this.post.title, content: this.post.content, image: this.post.imagePath});
+          this.post = {id: postData._id, residencename: postData.residencename, state: postData.state,
+            address: postData.address, size: postData.size, price: postData.price, imagePath: null};
+          this.form.setValue({residencename: this.post.residencename, state: this.post.state,
+          address: this.post.address, size: this.post.size, price: this.post.price, image: this.post.imagePath});
           console.log(this.post.id);
         });
       } else {
@@ -68,10 +74,12 @@ export class PostCreateComponent implements OnInit {
       return;
     }
     if (this.mode === 'create'){
-      this.postsService.addPost(this.form.value.title, this.form.value.content, this.form.value.image);
+      this.postsService.addPost(this.form.value.residencename, this.form.value.state,
+        this.form.value.address, this.form.value.size, this.form.value.price, this.form.value.image);
     } else {
-      this.postsService.updatePost(this.postId, this.form.value.title, this.form.value.content, this.form.value.image);
-      console.log(this.form.value.title);
+      this.postsService.updatePost(this.postId,this.form.value.residencename, this.form.value.state,
+        this.form.value.address, this.form.value.size, this.form.value.price, this.form.value.image);
+      console.log(this.form.value.residencename);
     }
     this.form.reset();
   }

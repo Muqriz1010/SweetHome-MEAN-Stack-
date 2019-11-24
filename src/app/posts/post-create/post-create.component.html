@@ -5,9 +5,45 @@
     <input
       matInput
       type="text"
-      formControlName = "title"
-      placeholder = "Post Title">
-    <mat-error *ngIf="form.get('title').invalid">Please enter a post title </mat-error>
+      formControlName = "residencename"
+      placeholder = "Residence Name">
+    <mat-error *ngIf="form.get('residencename').invalid">Please enter residence name </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      formControlName = "state"
+      placeholder = "State">
+    <mat-error *ngIf="form.get('state').invalid">Please enter state </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      formControlName = "address"
+      placeholder = "Street address">
+    <mat-error *ngIf="form.get('address').invalid">Please enter street name </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      formControlName = "size"
+      placeholder = "Size (sqft)">
+      <mat-error *ngIf="form.get('size').invalid">Please enter street name </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      type="text"
+      formControlName = "price"
+      placeholder = "Rental price (per month)">
+      <mat-error *ngIf="form.get('price').invalid">Please enter street name </mat-error>
   </mat-form-field>
 
   <div>
@@ -19,16 +55,6 @@
     <img [src] ="imagePreview" [alt]="form.value.title">
 
   </div>
-
-  <mat-form-field>
-    <textarea
-      matInput
-      rows="4"
-      formControlName = "content"
-      placeholder = "Post Content">
-    </textarea>
-    <mat-error *ngIf="form.get('content').invalid">Please enter a content </mat-error>
-  </mat-form-field>
 
   <button
     mat-raised-button

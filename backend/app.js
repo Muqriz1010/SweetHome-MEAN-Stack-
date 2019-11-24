@@ -58,8 +58,12 @@ app.post('/api/posts',checkAuth, multer({storage: storage}).single("image"),
       if (!user) throw new Error('User not Found');
   const post = new Post({
     user: user,
-    title: req.body.title,
-    content: req.body.content,
+    residencename: req.body.residencename,
+    state: req.body.state,
+    address: req.body.address,
+    size: req.body.size,
+    price: req.body.price,
+    owner: req.user.email,
     imagePath: url + "/images/" + req.file.filename
   });
   post.save().then(createdPost =>{
@@ -82,12 +86,37 @@ app.put(
   multer({storage: storage}).single("image"),
   (req,res,next) =>{
     const post = new Post({
-    _id: req.body.id,
-    title: req.body.title,
-    content: req.body.content
+      _id: req.body.id,
+      residencename: req.body.residencename,
+      state: req.body.state,
+      address: req.body.address,
+      size: req.body.size,
+      price: req.body.price
     });
 
   Post.updateOne({_id: req.params.id},post)
+    .then(result =>{
+    res.status(200).json({message: 'Update successful!',
+    result:result});
+  });
+});
+
+app.put(
+  '/api/view/:id',
+  checkAuth,
+  (req,res,next) =>{
+  Application.updateOne({_id: req.params.id} ,{$set : {status: "Approved"}})
+    .then(result =>{
+    res.status(200).json({message: 'Update successful!',
+    result:result});
+  });
+});
+
+app.put(
+  '/api/view/reject/:id',
+  checkAuth,
+  (req,res,next) =>{
+  Application.updateOne({_id: req.params.id} ,{$set : {status: "Rejected"}})
     .then(result =>{
     res.status(200).json({message: 'Update successful!',
     result:result});
@@ -119,6 +148,45 @@ app.get('/api/findhouses', checkAuth, (req, res,next)=>{
   })
 })
 });
+
+app.get('/api/viewapplications', checkAuth, (req, res,next)=>{
+  User.findById(req.user.userId)
+    .then(user => {
+      if (!user) throw new Error('User not Found');
+  Application.find({applicant: user}).populate('applicant')
+  .populate('residence')
+  .exec()
+  .then(documents => {
+    res.status(200).json({
+      message: documents,
+      applications: documents
+    })
+  })
+  })
+});
+
+app.get('/api/viewrequests', checkAuth, (req, res,next)=>{
+  User.findById(req.user.userId)
+    .then(user => {
+      if (!user) throw new Error('User not Found');
+  Post.find({user: user})
+    .then(post => {
+      if (!post) throw new Error('No setup residence Found');
+  Application.find({residence: post}).populate('applicant')
+  .populate('residence')
+  .exec()
+  .then(documents => {
+    res.status(200).json({
+      message: documents,
+      applications: documents
+    })
+  })
+  })
+  })
+});
+
+
+
 
 app.post('/api/applyhouse', checkAuth,(req, res, next)=> {
 

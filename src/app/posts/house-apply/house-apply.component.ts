@@ -4,6 +4,8 @@ import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../post.model';
 import { Application } from '../application.model';
+import {Subscription} from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector:'house-apply',
@@ -13,19 +15,33 @@ import { Application } from '../application.model';
 
 export class HouseApplyComponent implements OnInit {
   post: Post;
+  posts: Post[] = [];
   application: Application;
   form: FormGroup;
   imagePreview: string;
   private mode = 'apply';
   private postId: string;
+  private postsSub: Subscription;
+  private authStatusSub: Subscription;
+  userIsAuthenticated = false;
 
   // connect to service
   constructor(
     public postsService: PostsService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private authService: AuthService
     ) {}
 
   ngOnInit() {
+    this.postsService.getPosts(); // call the service to get posts
+    this.postsSub = this.postsService.getPostsUpdateListener()
+      .subscribe((posts: Post[]) => {
+        this.posts = posts;
+
+      });
+
+    this.userIsAuthenticated = this.authService.getIsAuth();
+
     this.form = new FormGroup({
       from: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)]
@@ -38,8 +54,10 @@ export class HouseApplyComponent implements OnInit {
         this.mode = 'apply';
         this.postId = paramMap.get('postId');
         this.postsService.getPost(this.postId).subscribe(postData => {
-          this.post = {id: postData._id, title: postData.title, content: postData.content, imagePath: null};
-          this.postId = this.post.id;
+          this.post = {id: postData._id, residencename: postData.residencename, state: postData.state,
+            address: postData.address, size: postData.size, price: postData.price, imagePath: postData.imagePath};
+          this.form.setValue({residencename: this.post.residencename, state: this.post.state,
+          address: this.post.address, size: this.post.size, price: this.post.price, image: this.post.imagePath});
           console.log(this.post.id);
         });
       } else {
@@ -71,8 +89,9 @@ export class HouseApplyComponent implements OnInit {
       console.log(this.postId + this.form.value.from + this.form.value.to);
 
     } else {
-      this.postsService.updatePost(this.postId, this.form.value.title, this.form.value.content, this.form.value.image);
-      console.log(this.form.value.title);
+      this.postsService.updatePost(this.postId,this.form.value.residencename, this.form.value.state,
+        this.form.value.address, this.form.value.size, this.form.value.price, this.form.value.image);
+      console.log(this.form.value.residencename);
     }
     this.form.reset();
   }

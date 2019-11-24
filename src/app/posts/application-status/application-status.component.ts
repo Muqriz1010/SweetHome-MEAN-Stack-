@@ -1,33 +1,33 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import {Post} from '../post.model';
-import {Application} from '../application.model';
 import {PostsService} from '../posts.service';
 import {Subscription} from 'rxjs';
 import {AuthService} from 'src/app/auth/auth.service';
+import {Application} from '../application.model';
 import {Request} from '../request.model';
 
-
 @Component({
-  selector: 'app-application-list',
-  templateUrl: './application-list.component.html',
-  styleUrls: ['./application-list.component.css']
+  selector: 'app-application-status',
+  templateUrl: './application-status.component.html',
+  styleUrls: ['./application-status.component.css']
 
 })
 
-export class ApplicationListComponent implements OnInit, OnDestroy {
+export class ApplicationStatusComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   applications: Application[] = [];
   requests: Request[] = [];
   userIsAuthenticated = false;
   private postsSub: Subscription;
+  private applicationsSub: Subscription;
   private authStatusSub: Subscription;
 
 
   constructor(public postsService: PostsService, private authService: AuthService) {
   }
   ngOnInit() {
-    this.postsService.getRequests(); // call the service to get posts
-    this.postsSub = this.postsService.getRequestsUpdateListener()
+    this.postsService.getApplications(); // call the service to get posts
+    this.applicationsSub = this.postsService.getApplicationsUpdateListener()
       .subscribe((requests: Request[]) => {
         this.requests = requests;
 
@@ -41,20 +41,8 @@ export class ApplicationListComponent implements OnInit, OnDestroy {
      // });
   }
 
-  onDelete(postId: string) {
-    this.postsService.deletePost(postId);
-  }
-
-  onApprove(id: string) {
-    this.postsService.approveApplication(id);
-  }
-
-  onReject(id: string) {
-    this.postsService.rejectApplication(id);
-  }
-
   ngOnDestroy(){
-    this.postsSub.unsubscribe();
+    this.applicationsSub.unsubscribe();
     //this.authStatusSub.unsubscribe();
   }
 }

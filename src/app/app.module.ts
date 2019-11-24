@@ -16,6 +16,7 @@ import {ApplicationListComponent} from './posts/application-list/application-lis
 import {HomeComponent} from './home/home.component';
 import {HouseListComponent} from './posts/house-list/house-list.component';
 import {HouseApplyComponent} from './posts/house-apply/house-apply.component';
+import {ApplicationStatusComponent} from './posts/application-status/application-status.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {HouseApplyComponent} from './posts/house-apply/house-apply.component';
     ApplicationListComponent,
     HomeComponent,
     HouseListComponent,
-    HouseApplyComponent
+    HouseApplyComponent,
+    ApplicationStatusComponent
 
   ],
   imports: [

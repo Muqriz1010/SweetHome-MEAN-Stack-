@@ -5,14 +5,14 @@
 
   </span>
   <ul>
-    <li *ngIf="userIsAuthenticated">
-      <a mat-button routerLink="/create" routerLinkActive="mat-accent"></a>
-    </li>
       <li *ngIf="userIsAuthenticated">
         <a mat-button routerLink="/create" routerLinkActive="mat-accent">Setup a house</a>
       </li>
       <li>
-        <a mat-button routerLink="/view" routerLinkActive="mat-accent">view your setup residence</a>
+        <a mat-button routerLink="/view" routerLinkActive="mat-accent">View application requests</a>
+      </li>
+      <li>
+        <a mat-button routerLink="/viewapplications" routerLinkActive="mat-accent">your applications</a>
       </li>
       <li>
         <a mat-button routerLink="/findhouses" routerLinkActive="mat-accent">Find a house</a>

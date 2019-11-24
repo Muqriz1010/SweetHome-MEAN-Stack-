@@ -1,15 +1,20 @@
 <mat-card multi="true" *ngFor="let post of posts" class="example-card">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>{{post.title}}</mat-card-title>
-    <mat-card-subtitle>{{post.content}}</mat-card-subtitle>
+    <mat-card-title>{{post.residencename}}</mat-card-title>
+    <mat-card-subtitle>{{post.state}}</mat-card-subtitle>
+    <mat-card-subtitle>{{post.size}} sqft</mat-card-subtitle>
+    <mat-card-subtitle>RM: {{post.price}} /Month</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <img mat-card-image [src]="post.imagePath" alt="post.residencename">
   <mat-card-content>
     <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
+      Masterful design and modern luxury are uniquely embodied in this
+      4 bedroom 4.5 bath Duplex Penthouse with a 4500 SF wraparound terrace
+      atop Sky Lofts Condominium. This one-of-a-kind glass house, created by
+      New York architect James Carpenter who designed 7 World Trade Center,
+      is sheathed in high-performance, museum-quality insulated glass atop an
+      historic Art Deco loft building in the heart of Tribeca.
     </p>
   </mat-card-content>
   <mat-card-actions>

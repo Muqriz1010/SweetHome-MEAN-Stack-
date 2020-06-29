@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
   }
 });
 
-mongoose.connect("mongodb+srv://muqriz:Wua4LxlPKZpVXjVx@cluster0-sanqr.mongodb.net/node-angular?retryWrites=true&w=majority")
+mongoose.connect("##MongodbLink##")
   .then(() => {
     console.log('Connected to database');
   })

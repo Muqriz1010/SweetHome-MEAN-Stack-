@@ -133,7 +133,7 @@ export class PostsService {
 
  getPost(id: string){
    return this.http.get<{_id: string; residencename: string; state: string; address: string;
-   size: string; price: string; image: any;}>('http://localhost:3000/api/posts/' + id);
+   size: string; price: string; imagePath: any;}>('http://localhost:3000/api/posts/' + id);
  }
 
 
@@ -208,7 +208,7 @@ deletePost(postId: string){
 }
 
  approveApplication(id: string){
-   this.http.put('http://localhost:3000/api/view/' + id)
+   this.http.put('http://localhost:3000/api/view/' + id, status)
      .subscribe(response => {
        console.log(response);
        this.router.navigate(['/']);
@@ -216,7 +216,7 @@ deletePost(postId: string){
  }
 
  rejectApplication(id: string){
-   this.http.put('http://localhost:3000/api/view/reject/' + id)
+   this.http.put('http://localhost:3000/api/view/reject/' + id, status)
      .subscribe(response => {
        console.log(response);
        this.router.navigate(['/']);

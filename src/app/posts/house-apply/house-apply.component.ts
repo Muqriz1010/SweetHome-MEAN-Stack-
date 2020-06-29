@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import { PostsService } from '../posts.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Router,ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../post.model';
 import { Application } from '../application.model';
 import {Subscription} from 'rxjs';
@@ -29,7 +29,8 @@ export class HouseApplyComponent implements OnInit {
   constructor(
     public postsService: PostsService,
     public route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
     ) {}
 
   ngOnInit() {
@@ -57,7 +58,7 @@ export class HouseApplyComponent implements OnInit {
           this.post = {id: postData._id, residencename: postData.residencename, state: postData.state,
             address: postData.address, size: postData.size, price: postData.price, imagePath: postData.imagePath};
           this.form.setValue({residencename: this.post.residencename, state: this.post.state,
-          address: this.post.address, size: this.post.size, price: this.post.price, image: this.post.imagePath});
+          address: this.post.address, size: this.post.size, price: this.post.price, imagePath: this.post.imagePath});
           console.log(this.post.id);
         });
       } else {
@@ -87,11 +88,12 @@ export class HouseApplyComponent implements OnInit {
     if (this.mode === 'apply'){
       this.postsService.applyPost(this.postId, this.form.value.from, this.form.value.to);
       console.log(this.postId + this.form.value.from + this.form.value.to);
-
+      this.router.navigate(['/']);
     } else {
       this.postsService.updatePost(this.postId,this.form.value.residencename, this.form.value.state,
         this.form.value.address, this.form.value.size, this.form.value.price, this.form.value.image);
       console.log(this.form.value.residencename);
+
     }
     this.form.reset();
   }

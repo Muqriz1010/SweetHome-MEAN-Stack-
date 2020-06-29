@@ -34,17 +34,12 @@ export class HouseListComponent implements OnInit, OnDestroy {
      //   this.userIsAuthenticated = isAuthenticated;
      // });
   }
-
   onDelete(postId: string) {
     this.postsService.deletePost(postId);
   }
-
   onApply(postId: string) {
 
   }
-
-
-
   ngOnDestroy(){
     this.postsSub.unsubscribe();
     //this.authStatusSub.unsubscribe();

@@ -1,24 +1,22 @@
-<mat-card multi="true" *ngFor="let post of posts" class="example-card">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>{{post.residencename}}</mat-card-title>
-    <mat-card-subtitle>{{post.state}}</mat-card-subtitle>
-    <mat-card-subtitle>{{post.size}} sqft</mat-card-subtitle>
-    <mat-card-subtitle>RM: {{post.price}} /Month</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image [src]="post.imagePath" alt="post.residencename">
-  <mat-card-content>
-    <p>
-      Masterful design and modern luxury are uniquely embodied in this
-      4 bedroom 4.5 bath Duplex Penthouse with a 4500 SF wraparound terrace
-      atop Sky Lofts Condominium. This one-of-a-kind glass house, created by
-      New York architect James Carpenter who designed 7 World Trade Center,
-      is sheathed in high-performance, museum-quality insulated glass atop an
-      historic Art Deco loft building in the heart of Tribeca.
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button [routerLink]="['/applyhouse', post.id]">APPLY</button>
+<!DOCTYPE html>
+<html class="no-js" lang="en-GB">
 
-  </mat-card-actions>
-</mat-card>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="An example pen showing how a basic CSS Grid container can create a nice, responsive card layout.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CSS Grid Cards</title>
+</head>
+
+</html>
+
+<div class="grid">
+    <div multi="true" *ngFor="let post of posts" class="grid__item">
+        <div class="card"><img class="card__img" [src]="post.imagePath">
+            <div class="card__content">
+                <h1 class="card__header">{{post.residencename}}</h1>
+                <p class="card__text">Look up at the night sky, and find yourself <strong>immersed</strong> in the amazing mountain range of Aspen. </p><button class="card__btn" [routerLink]="['/applyhouse', post.id]">Check availability <span>&rarr;</span></button></div>
+        </div>
+    </div>
+</div>

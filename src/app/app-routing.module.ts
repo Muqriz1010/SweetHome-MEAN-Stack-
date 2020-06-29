@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
@@ -15,7 +14,6 @@ const routes: Routes = [
   {path: 'applyhouse/:postId', component: HouseApplyComponent},
   {path: 'findhouses', component: HouseListComponent},
   {path: 'home', component: HomeComponent},
-  {path: '', component: PostListComponent},
   {path: 'create', component: PostCreateComponent},
   {path: 'edit/:postId', component: PostCreateComponent},
   {path: 'login', component: LoginComponent},
